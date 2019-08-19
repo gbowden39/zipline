@@ -2,7 +2,7 @@ import pandas as pd
 from os import listdir
 
 # Change the path to where you have your data
-path = 'home/gavin/OneDrive/Data/DAA'
+path = '/home/gavin/OneDrive/Data/DAA/'
 
 
 """
