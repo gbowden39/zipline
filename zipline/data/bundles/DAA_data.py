@@ -101,7 +101,7 @@ def process_stocks(symbols, sessions, metadata, divs):
         ac_date = end_date + pd.Timedelta(days=1)
         
         # Add a row to the metadata DataFrame. Don't forget to add an exchange field.
-        metadata.loc[sid] = start_date, end_date, ac_date, symbol, "NYSE"
+        metadata.loc[sid] = start_date, end_date, ac_date, symbol, "XNYS"
         
         # If there's dividend data, add that to the dividend DataFrame
         if 'dividend' in df.columns:

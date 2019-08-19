@@ -199,8 +199,10 @@ def ensure_benchmark_data(symbol, first_date, last_date, now, trading_day,
     filename = get_benchmark_filename(symbol)
     data = _load_cached_data(filename, first_date, last_date, now, 'benchmark',
                              environ)
+    """
     if data is not None:
         return data
+    """
 
     # If no cached data was found or it was missing any dates then download the
     # necessary data.
