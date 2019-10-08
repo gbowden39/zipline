@@ -1,9 +1,20 @@
 import pandas as pd
 from os import listdir
+import platform
+import getpass
+import os
 
-# Change the path to where you have your data
-path = '/Users/gavin/OneDrive - Funds_SA/Data/DAA/'
+# Set up directory structure
+op_sys = platform.system()
+user = getpass.getuser()
 
+# Data path is dependent on the os being used
+if "Windows" in op_sys:
+        path = os.path.join('C:\\', 'Users', user, 'OneDrive - Funds_SA','Data', 'DAA')
+elif "Linux" in op_sys:
+        path = os.path.join('/home',user, 'OneDrive', 'Data', 'DAA')
+elif "Darwin" in op_sys:
+        path = os.path.join('/Users',user, 'OneDrive - Funds_SA', 'Data', 'DAA')
 
 """
 The ingest function needs to have this exact signature,
@@ -24,6 +35,7 @@ def DAA_data(environ,
     # Get list of files from path
     # Slicing off the last part
     # 'example.csv'[:-4] = 'example'
+    print(listdir(path))
     symbols = [f[:-4] for f in listdir(path)]
     
     if not symbols:
@@ -82,7 +94,7 @@ def process_stocks(symbols, sessions, metadata, divs):
         
         print('Loading {}...'.format(symbol))
         # Read the stock data from csv file.
-        df = pd.read_csv('{}/{}.csv'.format(path, symbol), index_col=[0], parse_dates=[0]) 
+        df = pd.read_csv('{}/{}.csv'.format(path, symbol), index_col=[0], parse_dates=True) 
         
         # Check first and last date.
         start_date = df.index[0]

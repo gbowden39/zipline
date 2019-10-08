@@ -3,7 +3,7 @@ from os import listdir
 from tqdm import tqdm # Used for progress bar
 
 # Change the path to where you have your data
-base_path = "Users/gavin/Dropbox/Trading Evolved/data/"
+base_path = "/Users/gavin/OneDrive/Documents/Trading Evolved/data 2/"
 data_path = base_path + 'random_futures/'
 meta_path = 'futures_meta/meta.csv'
 futures_lookup = pd.read_csv(base_path + meta_path, index_col=0)
@@ -87,7 +87,7 @@ def process_futures(symbols, sessions, metadata):
         sid += 1
        
         # Read the stock data from csv file.
-        df = pd.read_csv('{}/{}.csv'.format(data_path, symbol), index_col=[0], parse_dates=[0]) 
+        df = pd.read_csv('{}/{}.csv'.format(data_path, symbol), index_col=[0], parse_dates=True) 
  
         # Check for minor currency quotes
         adjustment_factor = futures_lookup.loc[
