@@ -283,6 +283,9 @@ def ensure_treasury_data(symbol, first_date, last_date, now, environ=None):
         data.to_csv(get_data_filepath(filename, environ))
     except (OSError, IOError, HTTPError):
         logger.exception('failed to cache treasury data')
+        data = load_treasury_data_from_cache(get_data_filepath(filename, environ))
+    except Exception:
+        data = load_treasury_data_from_cache(get_data_filepath(filename, environ))
     if not has_data_for_dates(data, first_date, last_date):
         logger.warn(
             ("Still don't have expected treasury data for {symbol!r} "
@@ -293,6 +296,15 @@ def ensure_treasury_data(symbol, first_date, last_date, now, environ=None):
         )
     return data
 
+def load_treasury_data_from_cache(csv_path):
+    data = pd.read_csv(csv_path, parse_dates=['Time Period'], header=0)
+    data['Time Period'] = data['Time Period'].apply(to_utc_ts)
+    data.set_index(['Time Period'], inplace=True)
+    logger.info('Loaded treasury data from local, df length = {}'.format(len(data)))
+    return data
+
+def to_utc_ts(ts_str):
+    return pd.Timestamp(ts_str).tz_localize('UTC')
 
 def _load_cached_data(filename, first_date, last_date, now, resource_name,
                       environ=None):
